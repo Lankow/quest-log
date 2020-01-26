@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Getting Started Service Web Content</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <form action="#" th:action="@{register}" th:object="${questLogUser}" method="post">
+        <div class="form-group">
+            <label for="UserName">User name :</label>
+            <td><input type="text" class="form-control" id="UserName" th:field="${questLogUser.name}"/></td>
+        </div>
+        <div class="form-group">
+            <label for="Password1">Password :</label>
+            <td><input type="password" class="form-control" id="Password1" th:field="${questLogUser.password}"/></td>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    </form>
+</div>
+</body>
+</html>
