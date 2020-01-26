@@ -27,9 +27,6 @@ public class User {
     @Column(name = "NAME")
     @NotEmpty(message = "*Please provide your name")
     private String name;
-    @Column(name = "LAST_NAME")
-    @NotEmpty(message = "*Please provide your last name")
-    private String lastName;
     @Column(name = "ACTIVE")
     private int active;
     @ManyToMany(cascade = CascadeType.ALL)
@@ -40,7 +37,6 @@ public class User {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.lastName = lastName;
         this.active = active;
         this.roles = roles;
     }
@@ -78,14 +74,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public int getActive() {
