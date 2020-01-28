@@ -49,13 +49,6 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value={"/quests"}, method = RequestMethod.GET)
-    public ModelAndView quests(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user/quests");
-        return modelAndView;
-    }
-
     @RequestMapping(value="/admin/adminHome", method = RequestMethod.GET)
     public ModelAndView home(){
         ModelAndView modelAndView = new ModelAndView();

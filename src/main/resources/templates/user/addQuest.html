@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset='utf-8' />
+    <title>Store Locator</title>
+    <meta name='robots' content='noindex, nofollow'>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+        body {
+            color:#404040;
+            font-family: 'Josefin Sans',serif;
+            margin:0;
+            padding:0;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        * {
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+        }
+
+        .sidebar {
+            position:absolute;
+            width:33.3333%;
+            height:100%;
+            top:0;left:0;
+            overflow:hidden;
+            border-right:1px solid rgba(0,0,0,0.25);
+        }
+
+
+        .map {
+            position:absolute;
+            left:33.3333%;
+            width:66.6666%;
+            top:0;bottom:0;
+        }
+
+        h1 {
+            font-size:25px;
+            margin:0;
+            font-weight:400;
+            line-height: 20px;
+            padding: 20px 2px;
+        }
+
+
+
+        .heading {
+            background:#fff;
+            border-bottom:1px solid #eee;
+            min-height:60px;
+            line-height:60px;
+            padding:0 10px;
+            background-color: black;
+            color: #fff;
+        }
+        .sub-heading {
+            font-size:25px;
+            margin: 10px ;
+        }
+
+
+        .quest input[type="text"], .quest input[type="date"], .quest select{
+            width: 95%;
+            display: block;
+            margin: 10px auto;
+            padding: 15px;
+            border: 1px solid #b5b5b5;
+            outline: none;
+        }
+
+
+
+        .quest button{
+            max-width: 150px;
+            width: 100%;
+            background: #444444;
+            color: #f9f9f9;
+            border: none;
+            padding: 10px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            float:left;
+            cursor:pointer;
+            margin:10px 0 0 20px;
+        }
+    </style>
+</head>
+<body>
+<div class='sidebar'>
+    <div class='heading'>
+        <h1>QuestLog - Quests</h1>
+    </div>
+    <div id='listings' class='listings'>
+        <form th:action="@{/quests/add}" th:object="${quest}"method="POST"  class="quest">
+            <div class="sub-heading">NEW QUEST</div>
+            <hr style="width: 95%;">
+            <input type="text" id="name" name="name"  placeholder="QUEST NAME" th:field="*{name}"/>
+            <input type="text" id="desc" name="desc"  placeholder="QUEST DESCRIPTION" th:field="*{description}"/>
+            <input type="text" placeholder="QUEST DEADLINE"
+                   onfocus="(this.type='date')"
+                   onblur="(this.type='text')" id="date" name="date" th:field="*{deadline}"/>
+            <select id="type"  th:field="*{questType}">
+                <option th:each="type: ${T(com.lankovv.questlog.model.QuestType).values()}" th:value="${type}"
+                        th:text="${(type.name).toUpperCase()}"></option>
+            </select>
+            <button name="Submit" type="Submit"
+                    th:text="Create"></button>
+
+        </form>
+    </div>
+    </div>
+</div>
+<div id='map' class='map'></div>
+
+</body>
+</html>
