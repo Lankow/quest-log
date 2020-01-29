@@ -17,6 +17,9 @@ public class Quest {
     private QuestType questType;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date deadline;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 
     public Quest() {
@@ -60,5 +63,13 @@ public class Quest {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
