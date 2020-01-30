@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "QUEST")
@@ -72,4 +73,23 @@ public class Quest {
     public void setUser(User user) {
         this.user = user;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Quest quest= (Quest) o;
+//        return id == quest.id &&
+//                Objects.equals(name, quest.name) &&
+//                Objects.equals(description, quest.description) &&
+//                Objects.equals(deadline, quest.deadline) &&
+//                Objects.equals(questType, quest.questType) &&
+//                Objects.equals(user, quest.user);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//
+//        return Objects.hash(id, name, description, deadline, questType, user);
+//    }
 }

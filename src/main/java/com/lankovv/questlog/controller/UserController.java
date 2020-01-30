@@ -3,8 +3,6 @@ package com.lankovv.questlog.controller;
 import com.lankovv.questlog.model.User;
 import com.lankovv.questlog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,26 +47,5 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/admin/adminHome", method = RequestMethod.GET)
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","This Page is available to Users with Admin Role");
-        modelAndView.setViewName("admin/adminHome");
-        return modelAndView;
-    }
-
-    @RequestMapping(value="/user/userHome", method = RequestMethod.GET)
-    public ModelAndView user(){
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + " (" + user.getEmail() + ")");
-        modelAndView.addObject("userMessage","This Page is available to Users with User Role");
-        modelAndView.setViewName("user/userHome");
-        return modelAndView;
-    }
 
 }

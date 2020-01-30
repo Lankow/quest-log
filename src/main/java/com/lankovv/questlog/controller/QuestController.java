@@ -2,7 +2,6 @@ package com.lankovv.questlog.controller;
 
 import com.lankovv.questlog.model.Quest;
 import com.lankovv.questlog.model.User;
-import com.lankovv.questlog.service.QuestService;
 import com.lankovv.questlog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,23 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+
 @Controller
-public class QuestController {
+public class QuestController{
 
     @Autowired
-    QuestService questService;
-    UserService userService;
+    private UserService userService;
 
-    @RequestMapping(value={"/quests"}, method = RequestMethod.GET)
-    public ModelAndView quests(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user/quests");
-        return modelAndView;
-    }
 
     @RequestMapping(value={"/quests/add"}, method = RequestMethod.GET)
     public ModelAndView addQuestPage(){
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        System.out.println(user.getEmail());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user/addQuest");
         modelAndView.addObject("quest",new Quest());
@@ -44,4 +39,13 @@ public class QuestController {
         userService.saveUser(user);
         return new RedirectView("/quests");
     }
+
+    @RequestMapping(value={"/quests"}, method = RequestMethod.GET)
+    public ModelAndView quests(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user/quests");
+        return modelAndView;
+    }
+
+
 }
