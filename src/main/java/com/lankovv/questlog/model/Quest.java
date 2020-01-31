@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "QUEST")
@@ -21,7 +20,9 @@ public class Quest {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "location_id")
+    private Localization localization;
 
     public Quest() {
     }
@@ -74,7 +75,15 @@ public class Quest {
         this.user = user;
     }
 
-//    @Override
+    public Localization getLocalization() {
+        return localization;
+    }
+
+    public void setLocalization(Localization localization) {
+        this.localization = localization;
+    }
+
+    //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;

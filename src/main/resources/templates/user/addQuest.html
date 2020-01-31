@@ -13,6 +13,10 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet'
+          href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
+          type='text/css'/>
     <style>
         @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
@@ -123,6 +127,9 @@
                 <option th:each="type: ${T(com.lankovv.questlog.model.QuestType).values()}" th:value="${type}"
                         th:text="${(type.name).toUpperCase()}"></option>
             </select>
+            <input type="hidden" th:field="${quest.localization.longitude}" id="longitude" value=""/>
+            <input type="hidden" th:field="${quest.localization.latitude}" id="latitude" value=""/>
+            <input type="hidden" th:field="${quest.localization.address}" id="address" value=""/>
             <button name="Submit" type="Submit"
                     th:text="Create"></button>
 
@@ -134,34 +141,33 @@
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoibGFua292diIsImEiOiJjazBhdmJidDMwbHhvM2dud3d0b3BwajY0In0.vBvnDXH2rc02S-JQnpL1bQ';
     var map = new mapboxgl.Map({
-        container: 'map', // Container ID
-        style: 'mapbox://styles/mapbox/light-v10', // Map style to use
-        center: [-122.25948, 37.87221], // Starting position [lng, lat]
-        zoom: 12, // Starting zoom level
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: [14.560, 53.428],
+        zoom: 11
     });
 
-    var marker = new mapboxgl.Marker() // Initialize a new marker
-        .setLngLat([-122.25948, 37.87221]) // Marker [lng, lat] coordinates
-        .addTo(map); // Add the marker to the map
 
     var geocoder = new MapboxGeocoder({ // Initialize the geocoder
         accessToken: mapboxgl.accessToken, // Set the access token
         mapboxgl: mapboxgl, // Set the mapbox-gl instance
-        marker: false, // Do not use the default marker style
-        placeholder: 'Search for places in Berkeley', // Placeholder text for the search bar
-        bbox: [-122.30937, 37.84214, -122.23715, 37.89838], // Boundary for Berkeley
+        marker: {
+            color: 'black',
+            // draggable: true
+        },
+        placeholder: 'Search for quest localizations', // Placeholder text for the search bar
+        // bbox: [14, 53, 15, 54], // Boundary for Western Voidvodeship
         proximity: {
-            longitude: -122.25948,
-            latitude: 37.87221
-        } // Coordinates of UC Berkeley
+            longitude: 14.560,
+            coords: 53.428
+        } // Coordinates of Szczecin
     });
 
     // Add the geocoder to the map
     map.addControl(geocoder);
 
-    // After the map style has loaded on the page,
-    // add a source layer and default styling for a single point
-    map.on('load', function() {
+
+    map.on('load', function () {
         map.addSource('single-point', {
             type: 'geojson',
             data: {
@@ -170,23 +176,20 @@
             }
         });
 
-        map.addLayer({
-            id: 'point',
-            source: 'single-point',
-            type: 'circle',
-            paint: {
-                'circle-radius': 10,
-                'circle-color': '#000000'
-            }
-        });
-
         // Listen for the `result` event from the Geocoder
         // `result` event is triggered when a user makes a selection
         // Add a marker at the result's coordinates
-        geocoder.on('result', function(ev) {
+        geocoder.on('result', function (ev) {
             map.getSource('single-point').setData(ev.result.geometry);
+            console.log(ev.result.place_name);
+            document.getElementById('longitude').value = ev.result.center[0];
+            document.getElementById('latitude').value = ev.result.center[1];
+            document.getElementById('address').value = ev.result.place_name;
+
         });
+
     });
+
 </script>
 </body>
 </html>
