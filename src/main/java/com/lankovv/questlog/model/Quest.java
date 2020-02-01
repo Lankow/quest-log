@@ -1,8 +1,11 @@
 package com.lankovv.questlog.model;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -23,6 +26,7 @@ public class Quest {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
     private Localization localization;
+    private LocalTime time;
 
     public Quest() {
     }
@@ -83,22 +87,38 @@ public class Quest {
         this.localization = localization;
     }
 
-    //    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Quest quest= (Quest) o;
-//        return id == quest.id &&
-//                Objects.equals(name, quest.name) &&
-//                Objects.equals(description, quest.description) &&
-//                Objects.equals(deadline, quest.deadline) &&
-//                Objects.equals(questType, quest.questType) &&
-//                Objects.equals(user, quest.user);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//
-//        return Objects.hash(id, name, description, deadline, questType, user);
-//    }
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public JSONObject questToJson() {
+
+        JSONObject geometryData = new JSONObject();
+        JSONArray coordinates = new JSONArray();
+        JSONObject propertiesData = new JSONObject();
+
+        coordinates.add(localization.getLongitude());
+        coordinates.add(localization.getLatitude());
+
+        geometryData.put("type", "Point");
+        geometryData.put("coordinates", coordinates);
+
+        propertiesData.put("name", name);
+        propertiesData.put("type", questType.getName());
+        propertiesData.put("deadline", deadline);
+        propertiesData.put("time", time);
+        propertiesData.put("address", localization.getAddress());
+        propertiesData.put("description", description);
+
+        JSONObject feature = new JSONObject();
+        feature.put("type","Feature");
+        feature.put("geometry",geometryData);
+        feature.put("properties",propertiesData);
+
+        return feature;
+    }
 }

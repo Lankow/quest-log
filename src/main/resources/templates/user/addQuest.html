@@ -76,7 +76,7 @@
         }
 
 
-        .quest input[type="text"], .quest input[type="date"], .quest select{
+        .quest input[type="text"], .quest input[type="date"], .quest input[type="time"], .quest select{
             width: 95%;
             display: block;
             margin: 10px auto;
@@ -123,6 +123,9 @@
             <input type="text" placeholder="QUEST DEADLINE"
                    onfocus="(this.type='date')"
                    onblur="(this.type='text')" id="date" name="date" th:field="*{deadline}"/>
+            <input type="text" placeholder="QUEST TIME"
+                   onfocus="(this.type='time')"
+                   onblur="(this.type='text')" id="time" name="date" th:field="*{time}"/>
             <select id="type"  th:field="*{questType}">
                 <option th:each="type: ${T(com.lankovv.questlog.model.QuestType).values()}" th:value="${type}"
                         th:text="${(type.name).toUpperCase()}"></option>
