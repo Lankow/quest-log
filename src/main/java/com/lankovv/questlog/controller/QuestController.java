@@ -4,6 +4,7 @@ import com.lankovv.questlog.model.Quest;
 import com.lankovv.questlog.model.User;
 import com.lankovv.questlog.service.QuestService;
 import com.lankovv.questlog.service.UserService;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.Set;
 
 
 @Controller
@@ -42,12 +45,25 @@ public class QuestController {
 
     @RequestMapping(value = {"/quests"}, method = RequestMethod.GET)
     public ModelAndView quests() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        JSONObject questList = questService.userQuestsToJson(user);
         ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            User user = userService.findUserByEmail(auth.getName());
+            Set<Quest> questSet = user.getQuests();
+            JSONObject featureCollection = new JSONObject();
+            featureCollection.put("type", "FeatureCollection");
+            JSONArray questListJson = new JSONArray();
+            for (Quest quest : questSet) {
+                JSONObject questJson = quest.questToJson();
+                questListJson.add(questJson);
+            }
+            featureCollection.put("features", questListJson);
+            modelAndView.addObject("quests", featureCollection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         modelAndView.setViewName("user/quests");
-        modelAndView.addObject("quests", questList);
         return modelAndView;
     }
 

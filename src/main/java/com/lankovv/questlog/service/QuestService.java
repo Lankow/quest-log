@@ -26,19 +26,4 @@ public class QuestService {
     public void saveQuest(Quest quest) {
         questRepository.save(quest);
     }
-
-    public JSONObject userQuestsToJson(User user) {
-        return questListToJson(user.getQuests());
-    }
-
-    private JSONObject questListToJson(Set<Quest> quests) {
-        JSONObject featureCollection = new JSONObject();
-        featureCollection.put("type", "FeatureCollection");
-        JSONArray questList = new JSONArray();
-        for (Quest quest : quests) {
-            questList.add(quest.questToJson());
-        }
-        featureCollection.put("features", featureCollection);
-        return featureCollection;
-    }
 }

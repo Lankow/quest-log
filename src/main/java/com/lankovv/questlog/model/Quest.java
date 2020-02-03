@@ -109,8 +109,8 @@ public class Quest {
 
         propertiesData.put("name", name);
         propertiesData.put("type", questType.getName());
-        propertiesData.put("deadline", deadline);
-        propertiesData.put("time", time);
+        propertiesData.put("deadline", deadline.toString());
+        propertiesData.put("time", time.toString());
         propertiesData.put("address", localization.getAddress());
         propertiesData.put("description", description);
 
