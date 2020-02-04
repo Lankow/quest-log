@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 
@@ -35,12 +37,20 @@ public class QuestController {
     }
 
     @RequestMapping(value = {"/quests/add"}, method = RequestMethod.POST)
-    public RedirectView addQuest(@ModelAttribute Quest quest) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        user.addQuest(quest);
-        userService.saveUser(user);
-        return new RedirectView("/quests");
+    public ModelAndView addQuest(@Valid Quest quest, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("user/addQuest");
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByEmail(auth.getName());
+            user.addQuest(quest);
+            userService.saveUser(user);
+            modelAndView.addObject("successMessage", "Quest has been created successfully");
+            modelAndView.addObject("quest", new Quest());
+            modelAndView.setViewName("user/addQuest");
+        }
+        return modelAndView;
     }
 
     @RequestMapping(value = {"/quests"}, method = RequestMethod.GET)

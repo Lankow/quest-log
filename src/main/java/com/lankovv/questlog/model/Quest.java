@@ -1,10 +1,14 @@
 package com.lankovv.questlog.model;
 
+import org.hibernate.validator.constraints.Length;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -14,10 +18,15 @@ public class Quest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @NotEmpty(message = "*Please provide a name for a quest")
+    @Length(max = 30, message = "*Quest name must be shorter than 30 characters")
     private String name;
+    @Length(max = 100, message = "*Quest description must be shorter than 100 characters")
     private String description;
     @Column(name = "quest_type")
     private QuestType questType;
+    @NotNull(message = "*Please pick a deadline date")
+    @FutureOrPresent(message = "*Deadline date must be future")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date deadline;
     @ManyToOne
@@ -26,7 +35,19 @@ public class Quest {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
     private Localization localization;
+    @NotNull(message = "*Please pick time for a quest")
     private LocalTime time;
+
+
+    public Quest(@NotEmpty(message = "*Please provide a name for a quest") @Length(max = 30, message = "*Quest name must be shorter than 30 characters") String name, @Length(max = 50, message = "*Quest description must be shorter than 50 characters") String description, QuestType questType, @NotNull(message = "*Please pick a deadline date") @FutureOrPresent(message = "*Deadline date must be future") Date deadline, User user, Localization localization, @NotNull(message = "*Please pick time for a quest") LocalTime time) {
+        this.name = name;
+        this.description = description;
+        this.questType = questType;
+        this.deadline = deadline;
+        this.user = user;
+        this.localization = localization;
+        this.time = time;
+    }
 
     public Quest() {
     }
@@ -115,9 +136,9 @@ public class Quest {
         propertiesData.put("description", description);
 
         JSONObject feature = new JSONObject();
-        feature.put("type","Feature");
-        feature.put("geometry",geometryData);
-        feature.put("properties",propertiesData);
+        feature.put("type", "Feature");
+        feature.put("geometry", geometryData);
+        feature.put("properties", propertiesData);
 
         return feature;
     }

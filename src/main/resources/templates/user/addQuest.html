@@ -3,13 +3,13 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
     <title>QuestLog - New</title>
     <meta name='robots' content='noindex, nofollow'>
-    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet'/>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,62 +21,64 @@
         @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
         body {
-            color:#404040;
-            font-family: 'Josefin Sans',serif;
-            margin:0;
-            padding:0;
-            -webkit-font-smoothing:antialiased;
+            color: #404040;
+            font-family: 'Josefin Sans', serif;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
         * {
-            -webkit-box-sizing:border-box;
-            -moz-box-sizing:border-box;
-            box-sizing:border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
         }
 
         .sidebar {
-            position:absolute;
-            width:33.3333%;
-            height:100%;
-            top:0;left:0;
-            overflow:hidden;
-            border-right:1px solid rgba(0,0,0,0.25);
+            position: absolute;
+            width: 33.3333%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            border-right: 1px solid rgba(0, 0, 0, 0.25);
         }
 
 
         .map {
-            position:absolute;
-            left:33.3333%;
-            width:66.6666%;
-            top:0;bottom:0;
+            position: absolute;
+            left: 33.3333%;
+            width: 66.6666%;
+            top: 0;
+            bottom: 0;
         }
 
         h1 {
-            font-size:25px;
-            margin:0;
-            font-weight:400;
+            font-size: 25px;
+            margin: 0;
+            font-weight: 400;
             line-height: 20px;
             padding: 20px 2px;
         }
 
 
-
         .heading {
-            background:#fff;
-            border-bottom:1px solid #eee;
-            min-height:60px;
-            line-height:60px;
-            padding:0 10px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            min-height: 60px;
+            line-height: 60px;
+            padding: 0 10px;
             background-color: black;
             color: #fff;
         }
+
         .sub-heading {
-            font-size:25px;
-            margin: 10px ;
+            font-size: 25px;
+            margin: 10px;
         }
 
 
-        .quest input[type="text"], .quest input[type="date"], .quest input[type="time"], .quest select{
+        .quest input[type="text"], .quest input[type="date"], .quest input[type="time"], .quest select {
             width: 95%;
             display: block;
             margin: 10px auto;
@@ -85,7 +87,7 @@
             outline: none;
         }
 
-        .quest button{
+        .quest button {
             max-width: 150px;
             width: 100%;
             background: #444444;
@@ -94,16 +96,17 @@
             padding: 10px;
             text-transform: uppercase;
             border-radius: 2px;
-            float:left;
-            cursor:pointer;
-            margin:10px 0 0 20px;
+            float: left;
+            cursor: pointer;
+            margin: 10px 0 0 20px;
         }
 
         .map {
-            position:absolute;
-            left:33.3333%;
-            width:66.6666%;
-            top:0;bottom:0;
+            position: absolute;
+            left: 33.3333%;
+            width: 66.6666%;
+            top: 0;
+            bottom: 0;
         }
 
         .panel-options {
@@ -111,11 +114,25 @@
             float: right;
         }
 
-        .panel-options a{
+        .panel-options a {
             color: #cccccc !important;
         }
-        .panel-options a:hover{
+
+        .panel-options a:hover {
             color: #6f6f6f !important;
+        }
+
+        .validation-message {
+            margin-top: 5px;
+            font-style: normal;
+            font-size: 10px;
+            color: #FF1C19;
+        }
+
+        .validation-div{
+            clear: both;
+            margin:20px;
+            padding-top: 5px;
         }
     </style>
 </head>
@@ -125,19 +142,19 @@
         <h1>QuestLog - Quests <span class="panel-options"><a href="/quests/add"> NEW </a>| <a href="/quests"> MAP </a>| <a
                 th:href="@{/logout}"> LOG OUT</a></span></h1>
     </div>
-    <div id='listings' class='listings'>
-        <form th:action="@{/quests/add}" th:object="${quest}"method="POST"  class="quest">
+    <div id='listings' class="listings">
+        <form th:action="@{/quests/add}" th:object="${quest}" method="POST" class="quest">
             <div class="sub-heading">NEW QUEST</div>
             <hr style="width: 95%;">
-            <input type="text" id="name" name="name"  placeholder="QUEST NAME" th:field="*{name}"/>
-            <input type="text" id="desc" name="desc"  placeholder="QUEST DESCRIPTION" th:field="*{description}"/>
+            <input type="text" id="name" name="name" placeholder="QUEST NAME" th:field="*{name}"/>
+            <input type="text" id="description" name="desc" placeholder="QUEST DESCRIPTION" th:field="*{description}"/>
             <input type="text" placeholder="QUEST DEADLINE"
                    onfocus="(this.type='date')"
-                   onblur="(this.type='text')" id="date" name="date" th:field="*{deadline}"/>
+                   onblur="(this.type='text')" id="deadline" name="date" th:field="*{deadline}"/>
             <input type="text" placeholder="QUEST TIME"
                    onfocus="(this.type='time')"
                    onblur="(this.type='text')" id="time" name="date" th:field="*{time}"/>
-            <select id="type"  th:field="*{questType}">
+            <select id="type" th:field="*{questType}">
                 <option th:each="type: ${T(com.lankovv.questlog.model.QuestType).values()}" th:value="${type}"
                         th:text="${(type.name).toUpperCase()}"></option>
             </select>
@@ -146,10 +163,20 @@
             <input type="hidden" th:field="${quest.localization.address}" id="address" value=""/>
             <button name="Submit" type="Submit"
                     th:text="Create"></button>
-
+            <div class="validation-div">
+                <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                       class="validation-message"></div>
+                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+                       class="validation-message"></div>
+                <div th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"
+                       class="validation-message"></div>
+                <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}"
+                       class="validation-message"></div>
+            </div>
         </form>
+        <span  class="register-success validation-div" th:utext="${successMessage}"></span>
     </div>
-    </div>
+</div>
 </div>
 <div id='map' class='map'></div>
 <script>
