@@ -1,6 +1,7 @@
 package com.lankovv.questlog.controller;
 
 import com.lankovv.questlog.model.Quest;
+import com.lankovv.questlog.model.QuestStatus;
 import com.lankovv.questlog.model.User;
 import com.lankovv.questlog.service.QuestService;
 import com.lankovv.questlog.service.UserService;
@@ -42,6 +43,7 @@ public class QuestController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("user/addQuest");
         } else {
+            quest.setQuestStatus(QuestStatus.INCOMPLETE);
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
             user.addQuest(quest);
@@ -68,6 +70,8 @@ public class QuestController {
                 questListJson.add(questJson);
             }
             featureCollection.put("features", questListJson);
+            modelAndView.addObject("userName", user.getName());
+            modelAndView.addObject("playerStatus", user.getPlayerStatus());
             modelAndView.addObject("quests", featureCollection);
         } catch (Exception e) {
             e.printStackTrace();

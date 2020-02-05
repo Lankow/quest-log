@@ -1,5 +1,6 @@
 package com.lankovv.questlog.controller;
 
+import com.lankovv.questlog.model.PlayerStatus;
 import com.lankovv.questlog.model.User;
 import com.lankovv.questlog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,12 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("login");
         } else {
+            PlayerStatus playerStatus = new PlayerStatus(1L,0L,100L);
+            user.setPlayerStatus(playerStatus);
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("login");
-
         }
         return modelAndView;
     }

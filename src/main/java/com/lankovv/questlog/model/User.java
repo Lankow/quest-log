@@ -38,13 +38,18 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "user", orphanRemoval = true)
     private Set<Quest> quests = new HashSet<>();
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "player_status_id")
+    private PlayerStatus playerStatus;
 
-    public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email, @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") String password, @NotEmpty(message = "*Please provide your name") String name, @NotEmpty(message = "*Please provide your last name") String lastName, int active, Set<Role> roles) {
+    public User(@Email(message = "*Please provide a valid Email") @NotEmpty(message = "*Please provide an email") String email, @Length(min = 5, message = "*Your password must have at least 5 characters") @NotEmpty(message = "*Please provide your password") String password, @NotEmpty(message = "*Please provide your name") String name, int active, Set<Role> roles, Set<Quest> quests, PlayerStatus playerStatus) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.active = active;
         this.roles = roles;
+        this.quests = quests;
+        this.playerStatus = playerStatus;
     }
 
     public User() {
@@ -111,7 +116,15 @@ public class User {
         quest.setUser(this);
     }
 
-//    @Override
+    public PlayerStatus getPlayerStatus() {
+        return playerStatus;
+    }
+
+    public void setPlayerStatus(PlayerStatus playerStatus) {
+        this.playerStatus = playerStatus;
+    }
+
+    //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;

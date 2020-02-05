@@ -37,9 +37,10 @@ public class Quest {
     private Localization localization;
     @NotNull(message = "*Please pick time for a quest")
     private LocalTime time;
+    @Column(name = "quest_status")
+    private QuestStatus questStatus;
 
-
-    public Quest(@NotEmpty(message = "*Please provide a name for a quest") @Length(max = 30, message = "*Quest name must be shorter than 30 characters") String name, @Length(max = 50, message = "*Quest description must be shorter than 50 characters") String description, QuestType questType, @NotNull(message = "*Please pick a deadline date") @FutureOrPresent(message = "*Deadline date must be future") Date deadline, User user, Localization localization, @NotNull(message = "*Please pick time for a quest") LocalTime time) {
+    public Quest(@NotEmpty(message = "*Please provide a name for a quest") @Length(max = 30, message = "*Quest name must be shorter than 30 characters") String name, @Length(max = 100, message = "*Quest description must be shorter than 100 characters") String description, QuestType questType, @NotNull(message = "*Please pick a deadline date") @FutureOrPresent(message = "*Deadline date must be future") Date deadline, User user, Localization localization, @NotNull(message = "*Please pick time for a quest") LocalTime time, QuestStatus questStatus) {
         this.name = name;
         this.description = description;
         this.questType = questType;
@@ -47,6 +48,7 @@ public class Quest {
         this.user = user;
         this.localization = localization;
         this.time = time;
+        this.questStatus = questStatus;
     }
 
     public Quest() {
@@ -116,6 +118,14 @@ public class Quest {
         this.time = time;
     }
 
+    public QuestStatus getQuestStatus() {
+        return questStatus;
+    }
+
+    public void setQuestStatus(QuestStatus questStatus) {
+        this.questStatus = questStatus;
+    }
+
     public JSONObject questToJson() {
 
         JSONObject geometryData = new JSONObject();
@@ -128,8 +138,10 @@ public class Quest {
         geometryData.put("type", "Point");
         geometryData.put("coordinates", coordinates);
 
+        propertiesData.put("questId", id);
         propertiesData.put("name", name);
         propertiesData.put("type", questType.getName());
+        propertiesData.put("status", questStatus.getName());
         propertiesData.put("deadline", deadline.toString());
         propertiesData.put("time", time.toString());
         propertiesData.put("address", localization.getAddress());

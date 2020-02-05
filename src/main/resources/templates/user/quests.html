@@ -41,10 +41,11 @@
             float: right;
         }
 
-        .panel-options a{
+        .panel-options a {
             color: #cccccc !important;
         }
-        .panel-options a:hover{
+
+        .panel-options a:hover {
             color: #6f6f6f !important;
         }
 
@@ -144,7 +145,7 @@
             cursor: pointer;
             height: 56px;
             width: 56px;
-            background-image: url('../../static/images/marker.png');
+            background-image: url(../../static/images/marker.png);
             background-color: rgba(0, 0, 0, 0);
         }
 
@@ -210,7 +211,7 @@
         }
 
         .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-            border-bottom-color: #91c949;
+            border-bottom-color: #000000;
         }
     </style>
 </head>
@@ -403,7 +404,10 @@
             .setLngLat(currentFeature.geometry.coordinates)
             .setHTML('<h3>' + currentFeature.properties.type + ' · ' + currentFeature.properties.name + '</h3>' +
                 '<h4>' + currentFeature.properties.description + '</h4>' +
-                '<h4>' + currentFeature.properties.address + '</h4>')
+                '<h4>' + currentFeature.properties.time + ' · ' + currentFeature.properties.deadline + '</h4>' +
+                '<hr>' +
+                '<h4>' + '<a href="/quests/edit/' + currentFeature.properties.questId + '"' + '> EDIT</a>' + ' | ' +
+                '<a href="/quests/delete/' + currentFeature.properties.questId + '"' + '> DELETE</a>' + '</h4>')
             .addTo(map);
     }
 </script>
