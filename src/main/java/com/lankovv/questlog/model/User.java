@@ -115,6 +115,10 @@ public class User {
         quests.add(quest);
         quest.setUser(this);
     }
+    public void removeQuest(Quest quest) {
+        quests.remove(quest);
+        quest.setUser(null);
+    }
 
     public PlayerStatus getPlayerStatus() {
         return playerStatus;

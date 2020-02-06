@@ -33,7 +33,7 @@ public class Quest {
     @JoinColumn(name = "user_id")
     private User user;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "localization_id")
     private Localization localization;
     @NotNull(message = "*Please pick time for a quest")
     private LocalTime time;
@@ -142,7 +142,7 @@ public class Quest {
         propertiesData.put("name", name);
         propertiesData.put("type", questType.getName());
         propertiesData.put("status", questStatus.getName());
-        propertiesData.put("deadline", deadline.toString());
+        propertiesData.put("deadline", deadline.toString().substring(0,10));
         propertiesData.put("time", time.toString());
         propertiesData.put("address", localization.getAddress());
         propertiesData.put("description", description);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestRepository extends JpaRepository<Quest, Integer> {
     Quest findByName(String name);
+    Quest findById(Long id);
 }
 
 

@@ -9,7 +9,7 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet'/>
-    <style>
+    <style th:inline="text">
         @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
 
         body {
@@ -34,6 +34,11 @@
             left: 0;
             overflow: hidden;
             border-right: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        .panel-lvl {
+            font-size: 12px;
+            padding: 0px 2px;
         }
 
         .panel-options {
@@ -66,7 +71,7 @@
             margin: 0;
             font-weight: 400;
             line-height: 20px;
-            padding: 20px 2px;
+            padding: 15px 0px 0px 2px;
         }
 
         a {
@@ -81,8 +86,8 @@
         .heading {
             background: #fff;
             border-bottom: 1px solid #eee;
-            min-height: 60px;
-            line-height: 60px;
+            min-height: 30px;
+            line-height: 30px;
             padding: 0 10px;
             background-color: black;
             color: #fff;
@@ -115,6 +120,16 @@
             font-weight: 400;
         }
 
+        .listings .item .title hr {
+            width: 90%;
+            margin: 5px 0px;
+            height: 1px;
+            border: none;
+            color: #000;
+            background-color: #000;
+            text-align: center;
+        }
+
         .listings .item.active .title,
         .listings .item .title:hover {
             color: #2A2A2A;
@@ -122,6 +137,10 @@
 
         .listings .item.active {
             background-color: #cccccc;
+        }
+
+        .inline-form * {
+            display: inline-block;
         }
 
         ::-webkit-scrollbar {
@@ -143,11 +162,13 @@
         .marker {
             border: none;
             cursor: pointer;
-            height: 56px;
-            width: 56px;
-            background-image: url(../../static/images/marker.png);
+            background-size: 30px;
+            height: 30px;
+            width: 30px;
+            background-image: url([[@{../../images/marker.png}]]);
             background-color: rgba(0, 0, 0, 0);
         }
+
 
         .clearfix {
             display: block;
@@ -211,15 +232,22 @@
         }
 
         .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-            border-bottom-color: #000000;
+            border-bottom-color: #2a2a2a;
         }
     </style>
 </head>
 <body>
 <div class='sidebar'>
     <div class='heading'>
-        <h1>QuestLog - Quests <span class="panel-options"><a href="/quests/add"> NEW </a>| <a href="/quests"> MAP </a>| <a
-                th:href="@{/logout}"> LOG OUT</a></span></h1>
+        <h1><span th:text="QuestLog +' - '+ ${userName}"></span>
+            <span class="panel-options">
+            <a href="/quests/add"> NEW </a>| <a
+                    href="/quests"> MAP </a>| <a
+                    th:href="@{/logout}"> LOG OUT</a></span></h1>
+        <div class="panel-lvl">
+            <span th:text="'LVL ' +${playerStatus.lvl} +' | ' + ${playerStatus.exp} + ' / '+${playerStatus.expCap} + ' EXP'"></span>
+
+        </div>
     </div>
     <div id='listings' class='listings'></div>
 </div>
@@ -348,16 +376,20 @@
             link.className = 'title';
             link.id = "link-" + prop.id;
             link.innerHTML = prop.address;
-            link.innerHTML = prop.name;
+            link.innerHTML = prop.name + ' · ' + prop.type + ' · ' + prop.status;
             /* Add details to the individual listing. */
             var details = listing.appendChild(document.createElement('div'));
-            details.innerHTML = prop.type;
             if (prop.description) {
-                details.innerHTML += ' · ' + prop.description;
+                details.innerHTML += prop.description;
             }
             if (prop.address) {
-                details.innerHTML += ' · ' + prop.address;
+                details.innerHTML += '</br>' + prop.address;
             }
+            details.innerHTML += '</br>' + prop.deadline + ' · ' + prop.time;
+            details.innerHTML += '<hr><span><form class="inline-form" action="/quests/complete" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">COMPLETE</button></form>';
+            details.innerHTML += '<form class="inline-form" action="/quests/failed" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">FAILED</button></form>';
+            details.innerHTML += '<form class="inline-form" action="/quests/edit" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">EDIT</button></form>';
+            details.innerHTML += '<form class="inline-form" action="/quests/delete" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">DELETE</button></form></span></div>';
 
             /**
              * Listen to the element and when it is clicked, do four things:
@@ -400,14 +432,13 @@
     function createPopUp(currentFeature) {
         var popUps = document.getElementsByClassName('mapboxgl-popup');
         if (popUps[0]) popUps[0].remove();
-        var popup = new mapboxgl.Popup({closeOnClick: false})
+        var popup = new mapboxgl.Popup({closeOnClick: true})
             .setLngLat(currentFeature.geometry.coordinates)
-            .setHTML('<h3>' + currentFeature.properties.type + ' · ' + currentFeature.properties.name + '</h3>' +
+            .setHTML('<h3>' + currentFeature.properties.name + '</h3>' +
+                '<h3>' + currentFeature.properties.type + ' · ' + currentFeature.properties.status + '</h3>' +
                 '<h4>' + currentFeature.properties.description + '</h4>' +
-                '<h4>' + currentFeature.properties.time + ' · ' + currentFeature.properties.deadline + '</h4>' +
-                '<hr>' +
-                '<h4>' + '<a href="/quests/edit/' + currentFeature.properties.questId + '"' + '> EDIT</a>' + ' | ' +
-                '<a href="/quests/delete/' + currentFeature.properties.questId + '"' + '> DELETE</a>' + '</h4>')
+                '<h4>' + currentFeature.properties.deadline + ' · ' + currentFeature.properties.time + '</h4>' +
+                '<h4>' + currentFeature.properties.address + '</h4>')
             .addTo(map);
     }
 </script>

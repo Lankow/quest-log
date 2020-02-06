@@ -147,9 +147,9 @@
             color: #FF1C19;
         }
 
-        .validation-div{
+        .validation-div {
             clear: both;
-            margin:20px;
+            margin: 20px;
             padding-top: 5px;
         }
     </style>
@@ -168,9 +168,13 @@
         </div>
     </div>
     <div id='listings' class="listings">
-        <form th:action="@{/quests/add}" th:object="${quest}" method="POST" class="quest">
-            <div class="sub-heading">NEW QUEST</div>
+        <form th:action="'/quests/edit/' + ${quest.id}" th:object="${quest}" method="POST" class="quest">
+            <div class="sub-heading">EDIT QUEST</div>
             <hr style="width: 95%;">
+            <input type="hidden" th:field="*{id}" value=""/>
+            <input type="hidden" th:field="*{user.id}" value=""/>
+            <input type="hidden" th:field="*{localization.id}" value=""/>
+            <input type="hidden" th:field="*{questStatus}" value=""/>
             <input type="text" id="name" name="name" placeholder="QUEST NAME" th:field="*{name}"/>
             <input type="text" id="description" name="desc" placeholder="QUEST DESCRIPTION" th:field="*{description}"/>
             <input type="text" placeholder="QUEST DEADLINE"
@@ -187,19 +191,19 @@
             <input type="hidden" th:field="${quest.localization.latitude}" id="latitude" value=""/>
             <input type="hidden" th:field="${quest.localization.address}" id="address" value=""/>
             <button name="Submit" type="Submit"
-                    th:text="Create"></button>
+                    th:text="Edit"></button>
             <div class="validation-div">
                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                       class="validation-message"></div>
+                     class="validation-message"></div>
                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-                       class="validation-message"></div>
+                     class="validation-message"></div>
                 <div th:if="${#fields.hasErrors('deadline')}" th:errors="*{deadline}"
-                       class="validation-message"></div>
+                     class="validation-message"></div>
                 <div th:if="${#fields.hasErrors('time')}" th:errors="*{time}"
-                       class="validation-message"></div>
+                     class="validation-message"></div>
             </div>
         </form>
-        <span  class="register-success validation-div" th:utext="${successMessage}"></span>
+        <span class="register-success validation-div" th:utext="${successMessage}"></span>
     </div>
 </div>
 </div>
