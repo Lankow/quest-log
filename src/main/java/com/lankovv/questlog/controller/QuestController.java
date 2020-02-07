@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -87,8 +86,8 @@ public class QuestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/quests/{action}"}, method = RequestMethod.POST)
-    public RedirectView modifyQuest(@PathVariable String action, @RequestParam(value = "questId") Long id) {
+    @RequestMapping(value = {"/quests/{action}/{id}"}, method = RequestMethod.GET)
+    public RedirectView modifyQuest(@PathVariable String action, @PathVariable Long id) {
         RedirectView redirectView = new RedirectView("/quests");
         if (id != null && action != null) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -136,8 +135,8 @@ public class QuestController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/quests/edit/{id}"}, method = RequestMethod.POST)
-    public ModelAndView editQuest(@Valid Quest quest, BindingResult bindingResult, @PathVariable Long id) {
+    @RequestMapping(value = {"/quests/edit"}, method = RequestMethod.POST)
+    public ModelAndView editQuest(@Valid Quest quest, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());

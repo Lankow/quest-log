@@ -130,6 +130,11 @@
             text-align: center;
         }
 
+
+        .actions:hover {
+            color: rgba(56, 56, 56, 0.84) !important;
+        }
+
         .listings .item.active .title,
         .listings .item .title:hover {
             color: #2A2A2A;
@@ -386,10 +391,15 @@
                 details.innerHTML += '</br>' + prop.address;
             }
             details.innerHTML += '</br>' + prop.deadline + ' · ' + prop.time;
-            details.innerHTML += '<hr><span><form class="inline-form" action="/quests/complete" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">COMPLETE</button></form>';
-            details.innerHTML += '<form class="inline-form" action="/quests/failed" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">FAILED</button></form>';
-            details.innerHTML += '<form class="inline-form" action="/quests/edit" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">EDIT</button></form>';
-            details.innerHTML += '<form class="inline-form" action="/quests/delete" method="post">' + '<button name="questId" type="submit" value="' + prop.questId + '">DELETE</button></form></span></div>';
+
+            details.innerHTML += '<hr>';
+            if (prop.status === "Incomplete") {
+                details.innerHTML += '<a class="actions" href="/quests/complete/' + prop.questId + '">COMPLETE</a>' + ' | ';
+                details.innerHTML += '<a class="actions" href="/quests/failed/' + prop.questId + '">FAILED</a>' + ' | ';
+            }
+            details.innerHTML += '<a class="actions" href="/quests/edit/' + prop.questId + '">EDIT</a>' + ' | ';
+            details.innerHTML += '<a class="actions" href="/quests/delete/' + prop.questId + '">DELETE</a>';
+
 
             /**
              * Listen to the element and when it is clicked, do four things:
