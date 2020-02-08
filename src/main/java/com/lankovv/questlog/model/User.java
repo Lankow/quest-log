@@ -1,5 +1,7 @@
 package com.lankovv.questlog.model;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Length;
@@ -12,6 +14,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "USER")
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class User {
 
     @Id
@@ -128,7 +132,7 @@ public class User {
         this.playerStatus = playerStatus;
     }
 
-    //    @Override
+//        @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (o == null || getClass() != o.getClass()) return false;
@@ -139,7 +143,8 @@ public class User {
 //                Objects.equals(password, user.password) &&
 //                Objects.equals(active, user.active) &&
 //                Objects.equals(quests, user.quests) &&
-//                Objects.equals(roles, user.roles);
+//                Objects.equals(roles, user.roles) &&
+//                Objects.equals(playerStatus, user.playerStatus);
 //    }
 //
 //    @Override
