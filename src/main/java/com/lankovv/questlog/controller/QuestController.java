@@ -125,7 +125,7 @@ public class QuestController {
 
     @RequestMapping(value = {"/quests/edit/{id}"}, method = RequestMethod.GET)
     public ModelAndView editQuestPage(@PathVariable Long id){
-        ModelAndView modelAndView = new ModelAndView("/user/editQuest");
+        ModelAndView modelAndView = new ModelAndView("user/editQuest");
         Quest quest = questService.findQuestById(id);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
@@ -141,7 +141,7 @@ public class QuestController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("user/addQuest");
+            modelAndView.setViewName("user/editQuest");
         } else {
            questService.saveQuest(quest);
             modelAndView.addObject("successMessage", "Quest has been edited successfully");
