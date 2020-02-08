@@ -1,7 +1,5 @@
 package com.lankovv.questlog.model;
 
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Length;
@@ -14,8 +12,6 @@ import java.util.*;
 
 @Entity
 @Table(name = "USER")
-@DynamicInsert(true)
-@DynamicUpdate(true)
 public class User {
 
     @Id
