@@ -35,6 +35,7 @@ public class QuestController {
         this.questService = Objects.requireNonNull(questService, "Quest service cannot be a null");
     }
 
+
     @RequestMapping(value = {"/quests/add"}, method = RequestMethod.GET)
     public ModelAndView addQuestPage() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -57,7 +58,7 @@ public class QuestController {
         } else {
             quest.setQuestStatus(QuestStatus.INCOMPLETE);
             user.addQuest(quest);
-            userService.saveUser(user);
+            userService.updateUser(user);
             modelAndView.addObject("successMessage", "Quest has been created successfully");
             modelAndView.addObject("quest", new Quest());
             modelAndView.setViewName("user/addQuest");
@@ -100,7 +101,7 @@ public class QuestController {
                             quest.setQuestStatus(QuestStatus.COMPLETE);
                             questService.rewardExp(quest);
                             questService.saveQuest(quest);
-                            userService.saveUser(user);
+                            userService.updateUser(user);
                         }
                         break;
                     case "failed":
@@ -111,7 +112,7 @@ public class QuestController {
                         break;
                     case "delete":
                         user.removeQuest(quest);
-                        userService.saveUser(user);
+                        userService.updateUser(user);
                         questService.deleteQuest(quest);
                         break;
                     case "edit":

@@ -37,7 +37,8 @@ public class User {
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "user", orphanRemoval = true)
-    private Set<Quest> quests = new HashSet<>();
+    private Set<Quest> quests;
+    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "player_status_id")
     private PlayerStatus playerStatus;

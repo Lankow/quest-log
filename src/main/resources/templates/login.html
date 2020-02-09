@@ -190,11 +190,13 @@
                 <h1>QuestLog</h1>
                 <hr>
                 <h2>LOGIN</h2>
-                <input type="text" id="email" name="email" th:placeholder="Email"/>
-                <input type="password" th:placeholder="Password"
-                       id="password" name="password"/>
+                <input type="text" th:name="loginEmail" th:placeholder="Email"/>
+                <input type="password" th:placeholder="Password" th:name="loginPassword" />
                 <div th:if="${param.error}">
                     <p class="validation-message">Email or Password invalid, please verify</p>
+                </div>
+                <div th:if="${param.logout}" class="register-success">
+                    You have been logged out.
                 </div>
                 <button name="Submit" type="Submit"
                         th:text="Login"></button>

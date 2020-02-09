@@ -55,8 +55,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login").failureUrl("/login?error=true")
                 .defaultSuccessUrl("/quests")
 
-                .usernameParameter("email")
-                .passwordParameter("password")
+                .usernameParameter("loginEmail")
+                .passwordParameter("loginPassword")
                 /*.antMatchers("/user/**").hasAuthority("USER").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
@@ -65,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")*/
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").and().exceptionHandling()
+                .logoutSuccessUrl("/login?logout=true").and().exceptionHandling()
                 .accessDeniedPage("/access-denied")
 
         ;
