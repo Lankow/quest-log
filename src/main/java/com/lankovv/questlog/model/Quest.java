@@ -26,7 +26,6 @@ public class Quest {
     @Column(name = "quest_type")
     private QuestType questType;
     @NotNull(message = "*Please pick a deadline date")
-    @FutureOrPresent(message = "*Deadline date must be future")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date deadline;
     @ManyToOne
@@ -40,7 +39,7 @@ public class Quest {
     @Column(name = "quest_status")
     private QuestStatus questStatus;
 
-    public Quest(@NotEmpty(message = "*Please provide a name for a quest") @Length(max = 30, message = "*Quest name must be shorter than 30 characters") String name, @Length(max = 100, message = "*Quest description must be shorter than 100 characters") String description, QuestType questType, @NotNull(message = "*Please pick a deadline date") @FutureOrPresent(message = "*Deadline date must be future") Date deadline, User user, Localization localization, @NotNull(message = "*Please pick time for a quest") LocalTime time, QuestStatus questStatus) {
+    public Quest(@NotEmpty(message = "*Please provide a name for a quest") @Length(max = 30, message = "*Quest name must be shorter than 30 characters") String name, @Length(max = 100, message = "*Quest description must be shorter than 100 characters") String description, QuestType questType, @NotNull(message = "*Please pick a deadline date") Date deadline, User user, Localization localization, @NotNull(message = "*Please pick time for a quest") LocalTime time, QuestStatus questStatus) {
         this.name = name;
         this.description = description;
         this.questType = questType;
