@@ -15,13 +15,10 @@ import java.util.Set;
 
 @Service
 public class QuestService {
-
-    private UserRepository userRepository;
     private QuestRepository questRepository;
 
     @Autowired
-    public QuestService(UserRepository userRepository, QuestRepository questRepository) {
-        this.userRepository = userRepository;
+    public QuestService(QuestRepository questRepository) {
         this.questRepository = questRepository;
     }
 
