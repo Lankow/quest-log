@@ -40,7 +40,7 @@
             height: 100%;
             top: 0;
             left: 0;
-            overflow: hidden;
+            overflow: auto;
             border-right: 1px solid rgba(0, 0, 0, 0.25);
         }
 
@@ -152,12 +152,28 @@
             margin: 20px;
             padding-top: 5px;
         }
+
+        ::-webkit-scrollbar {
+            width: 3px;
+            height: 3px;
+            border-left: 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-track {
+            background: none;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000000;
+            border-radius: 0;
+        }
     </style>
 </head>
 <body>
 <div class='sidebar'>
     <div class='heading'>
-        <h1><span th:text="QuestLog +' - '+ ${userName}"></span>
+        <h1><span th:text="QuestLog +' '+ ${userName}"></span>
             <span class="panel-options">
             <a href="/quests/add"> NEW </a>| <a
                     href="/quests"> MAP </a>| <a
