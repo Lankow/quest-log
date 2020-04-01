@@ -4,184 +4,15 @@
 
 <head>
     <title>QuestLog - Adventure begins</title>
-    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>-->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style th:inline="text">
-
-        @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
-
         body {
-            font-family: 'Josefin Sans';
-            height: 100vh;
-            min-height: 550px;
-            background: url([[@{../../images/658113.png}]]);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow-y: hidden;
+            background: url([[@{../../images/bg.png}]]);
         }
-
-        a {
-            text-decoration: none;
-            color: #444444;
-        }
-
-        .login-reg-panel {
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-            text-align: center;
-            width: 70%;
-            right: 0;
-            left: 0;
-            margin: auto;
-            height: 400px;
-            background-color: black;
-        }
-
-        .white-panel {
-            background-color: rgba(255, 255, 255, 1);
-            height: 550px;
-            position: absolute;
-            top: -50px;
-            width: 50%;
-            right: calc(50% - 50px);
-            transition: .3s ease-in-out;
-            z-index: 0;
-            box-shadow: 0 0 15px 9px #00000096;
-        }
-
-        .login-reg-panel input[type="radio"] {
-
-            position: relative;
-            display: none;
-        }
-
-        .login-reg-panel {
-            color: white;
-        }
-
-        .login-reg-panel #label-login,
-        .login-reg-panel #label-register {
-            border: 1px solid #9E9E9E;
-            padding: 5px 5px;
-            width: 150px;
-            display: block;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 18px;
-            background-color: white;
-            color: black;
-        }
-
-        .login-info-box {
-            width: 35%;
-            padding: 0 50px;
-            top: 20%;
-            left: 0;
-            position: absolute;
-            text-align: left;
-        }
-
-        .register-info-box {
-            width: 35%;
-            padding: 0 50px;
-            top: 20%;
-            right: 0;
-            position: absolute;
-            text-align: left;
-
-        }
-
-        .right-log {
-            right: 50px !important;
-        }
-
-        .login-show,
-        .register-show {
-            z-index: 1;
-            display: none;
-            opacity: 0;
-            transition: 0.3s ease-in-out;
-            color: #242424;
-            text-align: left;
-            padding: 50px;
-        }
-
-        .show-log-panel {
-            display: block;
-            opacity: 0.9;
-        }
-
-        .login-show input[type="text"], .login-show input[type="password"] {
-            width: 100%;
-            display: block;
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #b5b5b5;
-            outline: none;
-        }
-
-        .login-show button {
-            max-width: 150px;
-            width: 100%;
-            background: #444444;
-            color: #f9f9f9;
-            border: none;
-            padding: 10px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            float: right;
-            cursor: pointer;
-        }
-
-
-        .register-show input[type="text"], .register-show input[type="password"] {
-            width: 100%;
-            display: block;
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #b5b5b5;
-            outline: none;
-        }
-
-        .register-show button {
-            max-width: 150px;
-            width: 100%;
-            background: #444444;
-            color: #f9f9f9;
-            border: none;
-            padding: 10px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            float: right;
-            cursor: pointer;
-        }
-
-        a {
-            text-decoration: none;
-            color: #2c7715;
-        }
-
-        .validation-message {
-            font-style: normal;
-            font-size: 10px;
-            color: #FF1C19;
-        }
-
-        .register-success {
-            font-style: normal;
-            font-size: 15px;
-            color: rgba(10, 5, 13, 0.71);
-        }
-
-
     </style>
+    <link href="../static/css/login.css" th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -192,7 +23,7 @@
         <h2>Have an account?</h2>
         <p>Then sign in and start organizing your time better!</p>
         <label id="label-register" for="log-reg-show">Login</label>
-        <input type="radio" name="active-log-panel" id="log-reg-show" >
+        <input type="radio" name="active-log-panel" id="log-reg-show">
     </div>
 
     <div class="register-info-box">
@@ -218,8 +49,8 @@
                 </div>
                 <button name="Submit" type="Submit"
                         th:text="Login"></button>
-                <span class="register-success" th:utext="${successMessage}"></span>
-                <span class="register-success" style="color: #FF1C19;" th:utext="${failMessage}"></span>
+                <div class="register-success" th:utext="${successMessage}"></div>
+                <div class="register-success" style="color: #FF1C19;" th:utext="${failMessage}"></div>
             </form>
         </div>
         <div class="register-show">
@@ -232,15 +63,17 @@
                 <input type="text" th:field="*{email}" placeholder="Email"/>
                 <input type="password" th:field="*{password}"
                        placeholder="Password"/>
-                <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                       class="validation-message"></label>
-                <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                       class="validation-message"></label>
-                <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                       class="validation-message"></label>
                 <button type="submit" th:text="Register"></button>
-
+                <div class="validation-messages">
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                           class="validation-message"></label>
+                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                           class="validation-message"></label>
+                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                           class="validation-message"></label>
+                </div>
             </form>
+
         </div>
 
     </div>

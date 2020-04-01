@@ -59,7 +59,7 @@ public class QuestController {
             quest.setQuestStatus(QuestStatus.INCOMPLETE);
             user.addQuest(quest);
             userService.updateUser(user);
-            modelAndView.addObject("successMessage", "Quest has been created successfully");
+            modelAndView.addObject("successMessage", "Quest has been created");
             modelAndView.addObject("quest", new Quest());
             modelAndView.setViewName("user/addQuest");
         }
@@ -145,7 +145,7 @@ public class QuestController {
             modelAndView.setViewName("user/editQuest");
         } else {
            questService.saveQuest(quest);
-            modelAndView.addObject("successMessage", "Quest has been edited successfully");
+            modelAndView.addObject("successMessage", "Quest has been edited");
             modelAndView.addObject("quest", new Quest());
             modelAndView.setViewName("user/addQuest");
         }

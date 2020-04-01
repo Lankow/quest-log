@@ -10,178 +10,22 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet'/>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
     <link rel='stylesheet'
           href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css'
           type='text/css'/>
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
-
-        body {
-            color: #404040;
-            font-family: 'Josefin Sans', serif;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        .sidebar {
-            position: absolute;
-            width: 33.3333%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: auto;
-            border-right: 1px solid rgba(0, 0, 0, 0.25);
-        }
-
-
-        .map {
-            position: absolute;
-            left: 33.3333%;
-            width: 66.6666%;
-            top: 0;
-            bottom: 0;
-        }
-
-        h1 {
-            font-size: 25px;
-            margin: 0;
-            font-weight: 400;
-            line-height: 20px;
-            padding: 15px 0px 0px 2px;
-        }
-
-        .panel-lvl {
-            font-size: 12px;
-            padding: 0px 2px;
-        }
-
-        .panel-options {
-            font-size: 12px;
-            float: right;
-        }
-
-        .panel-options a {
-            color: #cccccc !important;
-        }
-
-        .panel-options a:hover {
-            color: #6f6f6f !important;
-        }
-
-
-        .heading {
-            background: #fff;
-            border-bottom: 1px solid #eee;
-            min-height: 30px;
-            line-height: 30px;
-            padding: 0 10px;
-            background-color: black;
-            color: #fff;
-        }
-
-        .sub-heading {
-            font-size: 25px;
-            margin: 10px;
-        }
-
-
-        .quest input[type="text"], .quest input[type="date"], .quest input[type="time"], .quest select {
-            width: 95%;
-            display: block;
-            margin: 10px auto;
-            padding: 15px;
-            border: 1px solid #b5b5b5;
-            outline: none;
-        }
-
-        .quest button {
-            max-width: 150px;
-            width: 100%;
-            background: #444444;
-            color: #f9f9f9;
-            border: none;
-            padding: 10px;
-            text-transform: uppercase;
-            border-radius: 2px;
-            float: left;
-            cursor: pointer;
-            margin: 10px 0 0 20px;
-        }
-
-        .map {
-            position: absolute;
-            left: 33.3333%;
-            width: 66.6666%;
-            top: 0;
-            bottom: 0;
-        }
-
-        .panel-options {
-            font-size: 12px;
-            float: right;
-        }
-
-        .panel-options a {
-            color: #cccccc !important;
-        }
-
-        .panel-options a:hover {
-            color: #6f6f6f !important;
-        }
-
-        .validation-message {
-            margin-top: 5px;
-            font-style: normal;
-            font-size: 10px;
-            color: #FF1C19;
-        }
-
-        .validation-div {
-            clear: both;
-            margin: 20px;
-            padding-top: 5px;
-        }
-
-        ::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-            border-left: 0;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        ::-webkit-scrollbar-track {
-            background: none;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #000000;
-            border-radius: 0;
-        }
-    </style>
+    <link href="../../static/css/quests.css" th:href="@{/css/quests.css}" rel="stylesheet" />
 </head>
 <body>
 <div class='sidebar'>
     <div class='heading'>
         <h1><span th:text="QuestLog +' '+ ${userName}"></span>
-            <span class="panel-options">
-            <a href="/quests/add"> NEW </a>| <a
-                    href="/quests"> MAP </a>| <a
-                    th:href="@{/logout}"> LOG OUT</a></span></h1>
-        <div class="panel-lvl">
-            <span th:text="'LVL ' +${playerStatus.lvl} +' | ' + ${playerStatus.exp} + ' / '+${playerStatus.expCap} + ' EXP'"></span>
-
+        </h1>
+        <div class="panel-options">
+            <a href="/quests/add"> NEW </a>| <a href="/quests"> MAP </a>| <a th:href="@{/logout}"> LOG OUT</a>
         </div>
+        <div class="panel-lvl" th:text="'LVL ' +${playerStatus.lvl} +' | ' + ${playerStatus.exp} + ' / '+${playerStatus.expCap} + ' EXP'"></div>
     </div>
     <div id='listings' class="listings">
         <form th:action="@{/quests/edit}" th:object="${quest}" method="POST" class="quest">
@@ -234,22 +78,20 @@
     });
 
 
-    var geocoder = new MapboxGeocoder({ // Initialize the geocoder
-        accessToken: mapboxgl.accessToken, // Set the access token
-        mapboxgl: mapboxgl, // Set the mapbox-gl instance
+    var geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
         marker: {
             color: 'black',
-            // draggable: true
         },
-        placeholder: 'Search for quest localizations', // Placeholder text for the search bar
-        // bbox: [14, 53, 15, 54], // Boundary for Western Voidvodeship
+        interactive: false,
+        placeholder: 'Search for quest localizations',
         proximity: {
             longitude: 14.560,
             coords: 53.428
-        } // Coordinates of Szczecin
+        }
     });
 
-    // Add the geocoder to the map
     map.addControl(geocoder);
 
 
@@ -261,10 +103,7 @@
                 features: []
             }
         });
-
-        // Listen for the `result` event from the Geocoder
-        // `result` event is triggered when a user makes a selection
-        // Add a marker at the result's coordinates
+        
         geocoder.on('result', function (ev) {
             map.getSource('single-point').setData(ev.result.geometry);
             console.log(ev.result.place_name);

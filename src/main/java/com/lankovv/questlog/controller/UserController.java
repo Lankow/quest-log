@@ -37,13 +37,13 @@ public class UserController {
                             "There is already a user registered with the email provided");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("failMessage", "Registration failed. Please try again.");
+            modelAndView.addObject("failMessage", "Registration failed");
             modelAndView.setViewName("login");
         } else {
             PlayerStatus playerStatus = new PlayerStatus(1L,0L,100L);
             user.setPlayerStatus(playerStatus);
             userService.saveUser(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully");
+            modelAndView.addObject("successMessage", "User has been registered");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("login");
         }
